@@ -1,0 +1,31 @@
+{
+    "group/nwg-controls": {
+        "orientation": "horizontal",
+        "drawer": {
+            "transition-duration": 300,
+            "children-class": "nwg-menu-item",
+            "transition-left-to-right": false
+        },
+        "modules": [
+            "custom/nwg-icon",     // The visible trigger button
+            "battery",             // Native battery status
+            "custom/processes",    // nwg-system-config
+            "custom/wallpapers",   // nwg-look (azote)
+            "custom/gtk",          // nwg-look
+            "custom/displays",     // nwg-displays
+            "custom/shell",        // nwg-shell-config
+            "custom/exit"          // nwg-bar
+        ]
+    },
+
+    "custom/nwg-icon": { "format": "⚙️", "tooltip": false },
+    
+    // nwg-shell utility launchers
+    "custom/processes": { "format": "   Processes", "on-click": "nwg-processes" },
+    "custom/wallpapers": { "format": "   Wallpapers", "on-click": "azote" },
+    "custom/gtk": { "format": "   GTK Settings", "on-click": "nwg-look" },
+    "custom/displays": { "format": "   Displays", "on-click": "nwg-displays" },
+    "custom/shell": { "format": "   Shell Settings", "on-click": "nwg-shell-config" },
+    "custom/exit": { "format": "   Exit", "on-click": "nwg-bar" }
+}
+
