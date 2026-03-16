@@ -1,0 +1,35 @@
+
+//@theme "/usr/share/rofi/themes/sidebar.rasi"
+
+
+/* ---- Configuration ---- */
+configuration {
+    // Available modes
+    modi: "drun,window,filebrowser,run,powermenu:/home/ivan/.local/bin/rofi-power-menu";
+    
+    // Font settings
+    font: "JetBrains Mono";
+    
+    // Icon settings
+    show-icons: true;
+    icon-theme: "Papirus-Dark";
+    
+    // Basic settings
+    terminal: "alacritty";
+    drun-display-format: "{icon} {name}";
+    location: 0;                              // Center position
+    disable-history: false;
+    hide-scrollbar: false;
+    
+    // Mode display names with Nerd Font icons
+    display-drun: " Apps";                    // Apps mode
+    display-run: " Run";                      // Run mode
+    display-window: " Window";                // Window switcher
+    display-Network: " 󰤨 Network";            // Network mode
+    display-powermenu: " Power";
+    
+    // Enable sidebar mode for switching modes
+    sidebar-mode: true;
+}
+
+@theme "/usr/share/rofi/themes/paper-float.rasi"

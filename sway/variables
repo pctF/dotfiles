@@ -1,0 +1,6 @@
+set $term foot
+set $browser firefox
+set $filemanager thunar
+set $editor vim
+set $launcher nwg-drawer
+set $exit $launcher
