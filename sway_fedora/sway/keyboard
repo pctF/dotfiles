@@ -2,8 +2,8 @@ input "type:keyboard" {
   xkb_layout us,ru
   repeat_delay 300
   repeat_rate 40
-  xkb_capslock enabled
-  xkb_numlock enabled
+  xkb_capslock disabled
+  xkb_numlock disabled
   xkb_options grp:win_space_toggle
 }
 bindsym --release Super_L exec $launcher

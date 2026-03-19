@@ -1,5 +1,9 @@
 # The files we include below will be created / overwritten by nwg-shell tools
 #
+
+# enable screen share
+exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
+
 include variables
 include outputs
 include autostart
@@ -12,8 +16,8 @@ include touchpad
 # Read `man 5 sway` for reference.
 
 # border & title
-for_window [title="^.*"] border pixel 1, title_format "<b> %class >> %title </b>"
-default_border pixel 1
+for_window [title="^.*"] border pixel 2, title_format "<b> %class >> %title </b>"
+default_border pixel 2
 
 # gaps
 gaps inner 4
