@@ -1,21 +1,48 @@
-#nwg-controls {
+#custom-nwg-icon {
+    padding: 0 10px;
     background-color: @theme_bg_color;
     border-radius: 10px;
-    padding: 2px 10px;
+    color: @theme_fg_color;
+    transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
-.nwg-menu-item {
-    padding: 0 8px;
-    color: @text_color;
-    transition: all 0.3s ease;
-}
-
-.nwg-menu-item:hover {
+#custom-nwg-icon:hover {
     background-color: @theme_selected_bg_color;
     color: @theme_selected_fg_color;
 }
 
+#custom-processes,
+#custom-wallpapers,
+#custom-gtk,
+#custom-displays,
+#custom-shell,
+.nwg-menu-item {
+    padding: 0 16px;
+    margin: 0 6px;
+    border-radius: 8px;
+    color: @theme_fg_color;
+    background-color: transparent;
+    transition: all 0.2s ease-in-out;
+}
+
+#custom-processes:hover,
+#custom-wallpapers:hover,
+#custom-gtk:hover,
+#custom-displays:hover,
+#custom-shell:hover,
+.nwg-menu-item:hover {
+    background-color: alpha(@theme_selected_bg_color, 0.6);
+    color: @theme_selected_fg_color;
+    box-shadow: inset 0 0 0 1px alpha(@theme_selected_fg_color, 0.1);
+}
+
 #custom-exit {
-    color: @warning_color;
+    color: @error_color;
+    font-weight: bold;
+}
+
+#custom-exit:hover {
+    background-color: alpha(@error_color, 0.8);
+    color: white;
 }
 

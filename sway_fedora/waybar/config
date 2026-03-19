@@ -7,6 +7,7 @@
 // =============================================================================
 
 {
+    "include": "modules/nwg-controls",
     // -------------------------------------------------------------------------
     // Global configuration
     // -------------------------------------------------------------------------
@@ -19,8 +20,10 @@
     "height": 30,
 
     "modules-left": [
+        "group/nwg-controls",
         "sway/workspaces",
-        "sway/mode"
+        "sway/mode",
+        "pulseaudio"
     ],
     "modules-center": [
         "sway/window"
@@ -77,6 +80,7 @@
     "cpu": {
         "interval": 5,
         "format": "  {usage}% ({load})", // Icon: microchip
+        "on-click": "nwg-processes",
         "states": {
           "warning": 70,
           "critical": 90
@@ -130,22 +134,22 @@
         }
     },
 
-    //"pulseaudio": {
-    //    //"scroll-step": 1,
-    //    "format": "{icon}  {volume}%",
-    //    "format-bluetooth": "{icon}  {volume}%",
-    //    "format-muted": "",
-    //    "format-icons": {
-    //        "headphones": "",
-    //        "handsfree": "",
-    //        "headset": "",
-    //        "phone": "",
-    //        "portable": "",
-    //        "car": "",
-    //        "default": ["", ""]
-    //    },
-    //    "on-click": "pavucontrol"
-    //},
+    "pulseaudio": {
+        //"scroll-step": 1,
+        "format": "{icon}  {volume}%",
+        "format-bluetooth": "{icon}  {volume}%",
+        "format-muted": "",
+        "format-icons": {
+            "headphones": "",
+            "handsfree": "",
+            "headset": "",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": ["", ""]
+        },
+        "on-click": "pavucontrol"
+    },
 
     "temperature": {
       "critical-threshold": 80,
@@ -163,7 +167,7 @@
 
     "tray": {
         "icon-size": 21,
-        "spacing": 10
+        "spacing": 20
     }
 
 }
