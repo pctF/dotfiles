@@ -1,173 +1,265 @@
-// =============================================================================
-//
-// Waybar configuration
-//
-// Configuration reference: https://github.com/Alexays/Waybar/wiki/Configuration
-//
-// =============================================================================
+[
+    {
+        "include": "modules/nwg-controls",
+        // MAIN BAR //
+        "layer": "top",
+        "position": "top",
+        "name": "main",
+        "height": 28,
+        "reload_style_on_change": true,
 
-{
-    "include": "modules/nwg-controls",
-    // -------------------------------------------------------------------------
-    // Global configuration
-    // -------------------------------------------------------------------------
-
-    "layer": "top",
-
-    "position": "top",
-
-    // If height property would be not present, it'd be calculated dynamically
-    "height": 30,
-
-    "modules-left": [
-        "group/nwg-controls",
-        "sway/workspaces",
-        "sway/mode",
-        "pulseaudio"
-    ],
-    "modules-center": [
-        "sway/window"
-    ],
-    "modules-right": [
-        "network",
-        "memory",
-        "cpu",
-        "temperature",
-        "custom/keyboard-layout",
-        "battery",
-        "tray",
-        "clock#date",
-        "clock#time"
-    ],
-
-
-    // -------------------------------------------------------------------------
-    // Modules
-    // -------------------------------------------------------------------------
-
-    "battery": {
-        "interval": 10,
-        "states": {
-            "warning": 30,
-            "critical": 15
-        },
-        // Connected to AC
-        "format": "  {icon}  {capacity}%", // Icon: bolt
-        // Not connected to AC
-        "format-discharging": "{icon}  {capacity}%",
-        "format-icons": [
-            "", // Icon: battery-full
-            "", // Icon: battery-three-quarters
-            "", // Icon: battery-half
-            "", // Icon: battery-quarter
-            ""  // Icon: battery-empty
+        "modules-left": [
+            "sway/scratchpad",
+            "tray",
+            "sway/workspaces",
+            "sway/window",
         ],
-        "tooltip": true
-    },
 
-    "clock#time": {
-        "interval": 1,
-        "format": "{:%H:%M:%S}",
-        "tooltip": false
-    },
+        "modules-center": [
+            "sway/mode",
+        ],
 
-    "clock#date": {
-      "interval": 10,
-      "format": "  {:%e %b %Y}", // Icon: calendar-alt
-      "tooltip-format": "{:%e %B %Y}"
-    },
+        "modules-right": [
+            "mpris",
+            "cpu",
+            "temperature",
+            "memory#ram",
+//            "disk",
+            "network#info",
+            "pulseaudio#input",
+            "pulseaudio#output",
+            "custom/notification",
+            "custom/headsetbattery",
+            "sway/language",
+            "backlight",
+            "battery",
+            "clock",
+            "group/nwg-controls"
+        ],
 
-    "cpu": {
-        "interval": 5,
-        "format": "  {usage}% ({load})", // Icon: microchip
-        "on-click": "nwg-processes",
-        "states": {
-          "warning": 70,
-          "critical": 90
-        }
-    },
-
-    "custom/keyboard-layout": {
-      "exec": "swaymsg -t get_inputs | grep -m1 'xkb_active_layout_name' | cut -d '\"' -f4",
-      // Interval set only as a fallback, as the value is updated by signal
-      "interval": 30,
-      "format": "  {}", // Icon: keyboard
-      // Signal sent by Sway key binding (~/.config/sway/key-bindings)
-      "signal": 1, // SIGHUP
-      "tooltip": false
-    },
-
-    "memory": {
-        "interval": 5,
-        "format": "{}%", // Icon: memory
-        "states": {
-            "warning": 70,
-            "critical": 90
-        }
-    },
-
-    "network": {
-        "interval": 5,
-        "format-wifi": "  {essid} ({signalStrength}%)", // Icon: wifi
-        "format-ethernet": "I {ifname}: {ipaddr}/{cidr}", // Icon: ethernet
-        "format-disconnected": "⚠  Disconnected",
-        "tooltip-format": "{ifname}: {ipaddr}"
-    },
-
-    "sway/mode": {
-        "format": "<span style=\"italic\">&gt;  {}</span>", // Icon: expand-arrows-alt
-        "tooltip": false
-    },
-
-    "sway/window": {
-        "format": "{}",
-        "max-length": 120,
-	"icon": true
-    },
-
-    "sway/workspaces": {
-        "format": "{icon} {name} {windows}",
-        "format-icons": {
-            "urgent": "",
-            "focused": "",
-            "default": ""
-        }
-    },
-
-    "pulseaudio": {
-        //"scroll-step": 1,
-        "format": "{icon}  {volume}%",
-        "format-bluetooth": "{icon}  {volume}%",
-        "format-muted": "",
-        "format-icons": {
-            "headphones": "",
-            "handsfree": "",
-            "headset": "",
-            "phone": "",
-            "portable": "",
-            "car": "",
-            "default": ["", ""]
+        "sway/scratchpad": {
+            "format": "{icon} {count}",
+            "show-empty": false,
+            "format-icons": ["", ""],
+            "tooltip": true,
+            "tooltip-format": "{app}: {title}"
         },
-        "on-click": "pavucontrol"
+
+        "sway/window": {
+            "format": "{}",
+            "max-length": 50,
+            "all-outputs" : true,
+            "offscreen-css" : true,
+            "offscreen-css-text": "(inactive)",
+            "rewrite": {
+                "(.*) - Mozilla Firefox": " $1",
+                "(.*) - fish": "> [$1]"
+            },
+        },
+
+        // Modules
+        "disk": {
+            "interval": 16,
+            "format": " {percentage_used}%",
+            "tooltip": "{}",
+            "tooltip-format": "Free {free}",
+            "states": {
+                "warning": 85,
+                "critical": 95,
+            },
+        },
+
+
+        "battery": {
+            "interval": 10,
+            "states": {
+                "warning": 30,
+                "critical": 15
+            },
+            // Connected to AC
+            "format": "{icon}  {capacity}%", // Icon: bolt
+            // Not connected to AC
+            "format-discharging": "{icon}  {capacity}%",
+            "format-icons": [
+                "", // Icon: battery-full
+                "", // Icon: battery-three-quarters
+                "", // Icon: battery-half
+                "", // Icon: battery-quarter
+                ""  // Icon: battery-empty
+            ],
+            "tooltip": true
+        },
+
+        "group/storage": {
+            "orientation": "horizontal",
+            "drawer": {
+                "transition-duration": "500",
+                "transition-left-to-right": "true",
+                "children-class": "drawer-child",
+                //"click-to-reveal": "false"
+            },
+            "modules": ["memory#ram", "memory#swap"],
+        },
+
+        "group/power": {
+            "orientation": "horizontal",
+            "drawer": {
+                "transition-duration": "500",
+                "transition-left-to-right": "true",
+                "children-class": "drawer-child",
+                //"click-to-reveal": "false"
+            },
+            "modules": ["battery", "backlight"],
+        },
+
+        "backlight": {
+            "device": "intel_backlight",
+            "format": "{icon} {percent}%",
+            "format-icons": ["󱩎", "󱩑", "󱩓", "󱩕", "󰛨"],
+            "scroll-step": 1,
+            "on-scroll-up": "brightnessctl set 2%-",
+            "on-scroll-down": "brightnessctl set +2%",
+        },
+
+        "clock": {
+            "interval": 1,
+            "format": " {:%H:%M:%S    %a %d.%m}",
+            "tooltip-format": "{calendar}",
+            "calendar": {
+                "weeks-pos": "right",
+                "mode": "month",
+                "format": {
+                    "months": "<span color='#cba6f7'><b>{}</b></span>",
+                    "days": "<span color='#cdd6f4'><b>{}</b></span>",
+                    "weeks": "<span color='#94e2d5'> W{}</span>",
+                    "weekdays": "<span color='#f9e2af'><b>{}</b></span>",
+                    "today": "<span color='#f5e0dc'><b><u>{}</u></b></span>",
+                },
+            },
+//            "on-click": "chromium --app=https://calendar.google.com & aplay ~/.config/sounds/interact.wav",
+        },
+
+        "cpu": {
+            "interval": 4,
+            "min-length": 6,
+            "format": " {usage}%",
+            "states": {
+                "warning": 80,
+                "critical": 95,
+            },
+        },
+
+        "memory#ram": {
+            "interval": 4,
+            "format": " {percentage}%",
+            "states": {
+                "warning": 80,
+                "critical": 95,
+            },
+            "tooltip": "{}",
+            "tooltip-format": "{used}/{total} GiB",
+        },
+
+        "network#info": {
+            "interval": 2,
+            "format": "󱘖  Offline",
+            "format-wifi": "{icon} {bandwidthDownBits}",
+            "format-ethernet": "󰈀 {bandwidthDownBits}",
+            "min-length": 11,
+            "tooltip": "{}",
+            "tooltip-format-wifi": "{ifname}\n{essid}\n{signalStrength}% \n{frequency} GHz\n󰇚 {bandwidthDownBits}\n󰕒 {bandwidthUpBits}",
+            "tooltip-format-ethernet": "{ifname}\n󰇚 {bandwidthDownBits} \n󰕒 {bandwidthUpBits}",
+            "format-icons": ["󰤫", "󰤟", "󰤢", "󰤥", "󰤨"],
+            "states": {
+                "normal": 25,
+            },
+            "on-click": "nm-connection-editor",
+            "on-click-middle": "nm-connection-editor -t vpn",
+        },
+
+        "pulseaudio#output": {
+            "format": "{icon} {volume}%",
+            "format-bluetooth": "{icon} {volume}%",
+            "format-source-muted": "{volume}",
+            "format-icons": {
+                "headphone": "",
+                "hands-free": "",
+                "headset": "",
+                "phone": "",
+                "portable": "",
+                "car": "",
+                "default": ["", ""],
+            },
+            "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
+            "on-click-right": "pwvucontrol",
+            "on-scroll-down": "sh -c 'vol=$(pactl get-sink-volume @DEFAULT_SINK@ | grep -oP \"\\d+(?=%)\" | head -1); if [ \"$vol\" -lt 100 ]; then pactl set-sink-volume @DEFAULT_SINK@ +2%; else pactl set-sink-volume @DEFAULT_SINK@ 110%; fi'",
+            "on-scroll-up": "pactl set-sink-volume @DEFAULT_SINK@ -2%",
+            "tooltip": true,
+            "scroll-step": 4,
+        },
+
+        "pulseaudio#input": {
+            "format": " {format_source}%",
+            "format-source": "{volume}",
+            "format-source-muted": "{volume}",
+            "on-scroll-down": "sh -c 'vol=$(pactl get-source-volume @DEFAULT_SOURCE@ | grep -oP \"\\d+(?=%)\" | head -1); if [ \"$vol\" -lt 100 ]; then pactl set-source-volume @DEFAULT_SOURCE@ +2%; else pactl set-source-volume @DEFAULT_SOURCE@ 110%; fi'",
+            "on-scroll-up": "pactl set-source-volume @DEFAULT_SOURCE@ -2%",
+            "max-volume": "100",
+            "on-click": "pactl set-source-mute @DEFAULT_SOURCE@ toggle",
+            "on-click-right": "pwvucontrol",
+            "tooltip-format": "{source_desc}",
+            "scroll-step": 4,
+        },
+
+        "temperature": {
+            "critical-threshold": 90,
+            "interval": 4,
+            "format": "{icon} {temperatureC}°",
+            "format-icons": ["", "", "", "", ""],
+            "tooltip": false,
+        },
+
+        "tray": {
+            "icon-size": 18,
+            "spacing": 8,
+        },
+
+        "custom/notification": {
+            "tooltip": false,
+            "format": "{icon}",
+            "format-icons": {
+                "notification": "<span foreground='red'><sup></sup></span>",
+                "none": "",
+                "dnd-notification": "<span foreground='red'><sup></sup></span>",
+                "dnd-none": "",
+                "inhibited-notification": "<span foreground='red'><sup></sup></span>",
+                "inhibited-none": "",
+                "dnd-inhibited-notification": "<span foreground='red'><sup></sup></span>",
+                "dnd-inhibited-none": ""
+            },
+            "return-type": "json",
+            "exec-if": "which swaync-client",
+            "exec": "swaync-client -swb",
+            "on-click": "swaync-client -t -sw",
+            "on-click-right": "swaync-client -d -sw",
+            "escape": true
+        },
+
+        "mpris": {
+            "format": "{player_icon} {title} - {artist}",
+            "format-paused": "{status_icon} <i>{title} - {artist}</i>",
+            "player-icons": {
+                "default": "▶",
+                "mpv": "🎵"
+            },
+            "status-icons": {
+                "paused": "⏸"
+            },
+            "max-length": 40,
+            "on-click": "playerctl play-pause",
+            "on-click-middle": "playerctl next",
+            "on-click-right": "playerctl previous"
+        },
+
     },
-
-    "temperature": {
-      "critical-threshold": 80,
-      "interval": 5,
-      "format": "{icon}  {temperatureC}°C",
-      "format-icons": [
-          "", // Icon: temperature-empty
-          "", // Icon: temperature-quarter
-          "", // Icon: temperature-half
-          "", // Icon: temperature-three-quarters
-          ""  // Icon: temperature-full
-      ],
-      "tooltip": true
-    },
-
-    "tray": {
-        "icon-size": 21,
-        "spacing": 20
-    }
-
-}
+]

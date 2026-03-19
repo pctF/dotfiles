@@ -1,7 +1,7 @@
 #custom-nwg-icon {
     padding: 0 10px;
     background-color: @theme_bg_color;
-    border-radius: 10px;
+    border-radius: 0px;
     color: @theme_fg_color;
     transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
