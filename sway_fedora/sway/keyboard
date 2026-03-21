@@ -6,4 +6,3 @@ input "type:keyboard" {
   xkb_numlock disabled
   xkb_options grp:win_space_toggle
 }
-bindsym --release Super_L exec $launcher
