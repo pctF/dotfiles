@@ -1,0 +1,13 @@
+# voice and email
+workspace 1;exec firefox "https://app.pachca.com/" "music.yandex.ru"
+workspace 1;exec flatpak run --env=MOZ_ENABLE_WAYLAND=1 org.mozilla.Thunderbird
+
+exec sleep 1
+
+# messages
+workspace 2;exec flatpak run org.telegram.desktop
+workspace 2;exec flatpak run com.mattermost.Desktop
+
+# obsidian always  in scratchpad
+exec flatpak run md.obsidian.Obsidian
+
