@@ -1,6 +1,8 @@
 # Fedora 43 Saway spin initial dot files
 Small amount of pre-configurations (bindings, keyboard etc) for fedora sway spin + nwg-shell to have working pc from the start
 
+![screenshot](resources/screenshot.png)
+
 ## pre
 * fonts: Jetbrains, FontAwesome
 * nwg shell (copr tofik/nwg-shell)
