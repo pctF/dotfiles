@@ -92,13 +92,14 @@ bindsym Print exec screenshot swappy
 bindsym Control+Shift+Print exec screenshot focused
 
 # audio
-bindsym XF86AudioPlay exec playerctl play-pause
-bindsym XF86AudioNext exec playerctl next
-bindsym XF86AudioPrev exec playerctl previous
-bindsym XF86AudioStop exec playerctl stop
-bindsym XF86AudioMute exec pactl set-sink-mute 0 toggle
-bindsym XF86AudioRaiseVolume exec pactl set-sink-volume 0 +2%
-bindsym XF86AudioLowerVolume exec pactl set-sink-volume 0 -2%
+bindsym XF86AudioPlay exec playerctl play-pause && notify-send -t 300 -i media-playback-start -e "Playback: $(playerctl status 2>/dev/null || echo Stopped)"
+bindsym XF86AudioNext exec playerctl next && notify-send -t 300 -i media-skip-forward -e "Track: $(playerctl metadata --format '{{title}}' 2>/dev/null || echo Unknown)"
+bindsym XF86AudioPrev exec playerctl previous && notify-send -t 300 -i media-skip-backward -e "Track: $(playerctl metadata --format '{{title}}' 2>/dev/null || echo Unknown)"
+bindsym XF86AudioStop exec playerctl stop && notify-send -t 300 -i media-playback-stop -e "Playback stopped"
+bindsym XF86AudioMute exec pactl set-sink-mute 0 toggle && notify-send -t 300 -i audio-volume-muted -e "Mute: $(amixer get Master | grep -oP '\d+%' | tr -d '%' )"
+bindsym XF86AudioRaiseVolume exec pactl set-sink-volume 0 +2% && notify-send -t 300 -i audio-volume-high -e "Volume: $(amixer get Master | grep -oP '\d+%' | tr -d '%')"
+bindsym XF86AudioLowerVolume exec pactl set-sink-volume 0 -2% && notify-send -t 300 -i audio-volume-low -e "Volume: $(amixer get Master | grep -oP '\d+%' | tr -d '%')"
+
 
 # backlight
 bindsym XF86MonBrightnessUp exec light -A 5
