@@ -100,6 +100,9 @@ bindsym XF86AudioMute exec pactl set-sink-mute 0 toggle && notify-send -t 300 -i
 bindsym XF86AudioRaiseVolume exec pactl set-sink-volume 0 +2% && notify-send -t 300 -i audio-volume-high -e "Volume: $(amixer get Master | grep -oP '\d+%' | tr -d '%')"
 bindsym XF86AudioLowerVolume exec pactl set-sink-volume 0 -2% && notify-send -t 300 -i audio-volume-low -e "Volume: $(amixer get Master | grep -oP '\d+%' | tr -d '%')"
 
+# mic
+bindsym XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle && notify-send -t 500 -i audio-input-microphone -e "Mic: $(pactl get-source-mute @DEFAULT_SOURCE@ | awk '{print ($2=="yes")?"Off":"On"}')"
+
 
 # backlight
 bindsym XF86MonBrightnessUp exec light -A 5
