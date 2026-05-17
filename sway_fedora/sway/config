@@ -2,7 +2,8 @@
 #
 
 # enable screen share
-exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
+#exec dbus-update-activation-environment --all
+exec dbus-update-activation-environment --systemd DISPLAY SWAYSOCK  WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
 
 include variables
 include outputs
@@ -97,8 +98,8 @@ bindsym XF86AudioNext exec playerctl next && notify-send -t 300 -i media-skip-fo
 bindsym XF86AudioPrev exec playerctl previous && notify-send -t 300 -i media-skip-backward -e "Track: $(playerctl metadata --format '{{title}}' 2>/dev/null || echo Unknown)"
 bindsym XF86AudioStop exec playerctl stop && notify-send -t 300 -i media-playback-stop -e "Playback stopped"
 bindsym XF86AudioMute exec pactl set-sink-mute 0 toggle && notify-send -t 300 -i audio-volume-muted -e "Mute: $(amixer get Master | grep -oP '\d+%' | tr -d '%' )"
-bindsym XF86AudioRaiseVolume exec pactl set-sink-volume 0 +2% && notify-send -t 300 -i audio-volume-high -e "Volume: $(amixer get Master | grep -oP '\d+%' | tr -d '%')"
-bindsym XF86AudioLowerVolume exec pactl set-sink-volume 0 -2% && notify-send -t 300 -i audio-volume-low -e "Volume: $(amixer get Master | grep -oP '\d+%' | tr -d '%')"
+bindsym XF86AudioRaiseVolume exec pactl set-sink-volume 0 +2% && notify-send -t 300 -i audio-volume-high -e "Up   Volume: $(amixer get Master | grep -oP '\d+%' -m1)"
+bindsym XF86AudioLowerVolume exec pactl set-sink-volume 0 -2% && notify-send -t 300 -i audio-volume-low -e  "Down Volume: $(amixer get Master | grep -oP '\d+%' -m1)"
 
 # mic
 bindsym XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle && state=$(pactl get-source-mute @DEFAULT_SOURCE@ | awk '{print $2}') && icon=$( [ "$state" = "yes" ] && echo "microphone-sensitivity-muted" || echo "audio-input-microphone" ) && text=$( [ "$state" = "yes" ] && echo "Mic: Off" || echo "Mic: On" ) && notify-send -t 500 -i "$icon" -e "$text"
