@@ -1,3 +1,4 @@
+exec env DESKTOPINTEGRATION=1 /home/ivan/AppImages/nekobox.appimage -tray -minimized
 # voice and email
 workspace 1;layout splith;exec flatpak run --env=MOZ_ENABLE_WAYLAND=1 org.mozilla.Thunderbird
 workspace 1;exec firefox "https://app.pachca.com/" "music.yandex.ru"
