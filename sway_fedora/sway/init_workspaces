@@ -1,8 +1,8 @@
 # voice and email
+workspace 1;layout splith;exec flatpak run --env=MOZ_ENABLE_WAYLAND=1 org.mozilla.Thunderbird
 workspace 1;exec firefox "https://app.pachca.com/" "music.yandex.ru"
-workspace 1;exec flatpak run --env=MOZ_ENABLE_WAYLAND=1 org.mozilla.Thunderbird
 
-exec sleep 1
+exec sleep 1 swaymsg '[app_id="org.mozilla.Thunderbird"] focus' && swaymsg 'resize set height 60 ppt'
 
 # messages
 workspace 2;exec flatpak run org.telegram.desktop

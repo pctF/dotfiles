@@ -3,7 +3,10 @@
 
 # enable screen share
 #exec dbus-update-activation-environment --all
+exec systemctl --user import-environment DISPLAY SWAYSOCK  WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
 exec dbus-update-activation-environment --systemd DISPLAY SWAYSOCK  WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
+exec hash dbus-update-activation-environment 2>/dev/null && \
+     dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY
 
 include variables
 include outputs
@@ -93,16 +96,16 @@ bindsym Print exec screenshot swappy
 bindsym Control+Shift+Print exec screenshot focused
 
 # audio
-bindsym XF86AudioPlay exec playerctl play-pause && notify-send -t 300 -i media-playback-start -e "Playback: $(playerctl status 2>/dev/null || echo Stopped)"
-bindsym XF86AudioNext exec playerctl next && notify-send -t 300 -i media-skip-forward -e "Track: $(playerctl metadata --format '{{title}}' 2>/dev/null || echo Unknown)"
-bindsym XF86AudioPrev exec playerctl previous && notify-send -t 300 -i media-skip-backward -e "Track: $(playerctl metadata --format '{{title}}' 2>/dev/null || echo Unknown)"
-bindsym XF86AudioStop exec playerctl stop && notify-send -t 300 -i media-playback-stop -e "Playback stopped"
-bindsym XF86AudioMute exec pactl set-sink-mute 0 toggle && notify-send -t 300 -i audio-volume-muted -e "Mute: $(amixer get Master | grep -oP '\d+%' | tr -d '%' )"
-bindsym XF86AudioRaiseVolume exec pactl set-sink-volume 0 +2% && notify-send -t 300 -i audio-volume-high -e "Up   Volume: $(amixer get Master | grep -oP '\d+%' -m1)"
-bindsym XF86AudioLowerVolume exec pactl set-sink-volume 0 -2% && notify-send -t 300 -i audio-volume-low -e  "Down Volume: $(amixer get Master | grep -oP '\d+%' -m1)"
+bindsym XF86AudioPlay exec playerctl play-pause && notify-send -t 300 -i /usr/share/icons/breeze-dark/actions/32@3x/media-playback-start-symbolic.svg -e "Playback: $(playerctl status 2>/dev/null || echo Stopped)"
+bindsym XF86AudioNext exec playerctl next && notify-send -t 300 -i /usr/share/icons/breeze-dark/actions/32@3x/media-skip-forward-symbolic.svg -e "Track: $(playerctl metadata --format '{{title}}' 2>/dev/null || echo Unknown)"
+bindsym XF86AudioPrev exec playerctl previous && notify-send -t 300 -i /usr/share/icons/breeze-dark/actions/32@3x/media-skip-backward-symbolic.svg -e "Track: $(playerctl metadata --format '{{title}}' 2>/dev/null || echo Unknown)"
+bindsym XF86AudioStop exec playerctl stop && notify-send -t 300 -i /usr/share/icons/breeze-dark/actions/32@3x/media-playback-pause-symbolic.svg -e "Playback stopped"
+bindsym XF86AudioMute exec pactl set-sink-mute 0 toggle && notify-send -t 300 -i /usr/share/icons/breeze-dark/status/24/audio-volume-muted-symbolic.svg -e "Mute: $(amixer get Master | grep -oP '\d+%' | tr -d '%' )"
+bindsym XF86AudioRaiseVolume exec pactl set-sink-volume 0 +2% && notify-send -t 300 -i /usr/share/icons/breeze-dark/status/24/audio-volume-high-symbolic.svg -e "Up   Volume: $(amixer get Master | grep -oP '\d+%' -m1)"
+bindsym XF86AudioLowerVolume exec pactl set-sink-volume 0 -2% && notify-send -t 300 -i /usr/share/icons/breeze-dark/status/24/audio-volume-low-symbolic.svg -e  "Down Volume: $(amixer get Master | grep -oP '\d+%' -m1)"
 
 # mic
-bindsym XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle && state=$(pactl get-source-mute @DEFAULT_SOURCE@ | awk '{print $2}') && icon=$( [ "$state" = "yes" ] && echo "microphone-sensitivity-muted" || echo "audio-input-microphone" ) && text=$( [ "$state" = "yes" ] && echo "Mic: Off" || echo "Mic: On" ) && notify-send -t 500 -i "$icon" -e "$text"
+bindsym XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle && state=$(pactl get-source-mute @DEFAULT_SOURCE@ | awk '{print $2}') && icon=$( [ "$state" = "yes" ] && echo "/usr/share/icons/breeze-dark/status/24/microphone-sensitivity-muted-symbolic-rtl.svg" || echo "/usr/share/icons/breeze-dark/status/24/microphone-sensitivity-medium-symbolic-rtl.svg" ) && text=$( [ "$state" = "yes" ] && echo "Mic: Off" || echo "Mic: On" ) && notify-send -t 500 -i "$icon" -e "$text"
 
 
 # backlight
@@ -318,4 +321,28 @@ for_window [class="obsidian"] move scratchpad
 popup_during_fullscreen smart
 
 ### INCLUDE EXTRA ###
+# Doesnt work. todo
+# default fedora includes
+# Include configs from 3 locations:
+#  - $DATADIR/sway/config.d
+#  - $SYSCONFDIR/sway/config.d
+#  - $XDG_CONFIG_HOME/sway/config.d ($HOME/.config/sway/config.d)
+#
+# If multiple directories contain the files with the same name, the later
+# directory takes precedence; `$XDG_CONFIG_HOME/sway/config.d/20-swayidle.conf`
+# will always be loaded instead of `$DATADIR/sway/config.d/20-swayidle.conf`
+# or `$SYSCONFDIR/sway/config.d/20-swayidle.conf`
+#
+# This mechanism permits overriding our default configuration per-system
+# ($SYSCONFDIR) or per-user ($XDG_CONFIG_HOME) basis. Just create the file you
+# want to modify/override in the higher-level directory.
+#
+# For example, to disable the default bar from Fedora configs, you'll need to
+#     $ echo -n > "$HOME/.config/sway/config.d/90-bar.conf"
+#
+# Note the quoting, the $() and the arguments quoting. All the parts are equally
+# important to make the magic work. And if you want to learn the secret behind
+# the trick, it's all in the `wordexp(3)`.
+#
+#include '$($LIBEXECDIR/sway/layered-include "$DATADIR/sway/config.d/*.conf" "$SYSCONFDIR/sway/config.d/*.conf" "${XDG_CONFIG_HOME:-$HOME/.config}/sway/config.d/*.conf")'
 
