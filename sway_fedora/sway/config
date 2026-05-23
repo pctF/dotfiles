@@ -1,12 +1,20 @@
 # The files we include below will be created / overwritten by nwg-shell tools
 #
 
-# enable screen share
-#exec dbus-update-activation-environment --all
-exec systemctl --user import-environment DISPLAY SWAYSOCK  WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
-exec dbus-update-activation-environment --systemd DISPLAY SWAYSOCK  WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
-exec hash dbus-update-activation-environment 2>/dev/null && \
-     dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY
+# Screen sharing
+# I absolutly idk. It just stopped working under fedora 44 and i keep fixing this part
+exec sh -c ' \
+    systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP && \
+    hash dbus-update-activation-environment 2>/dev/null && \
+    dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP && \
+    systemctl --user start graphical-session.target \
+'
+
+exec sh -c '\
+    pgrep -x xdg-desktop-portal-wlr >/dev/null || /usr/libexec/xdg-desktop-portal-wlr &\
+    pgrep -x xdg-desktop-portal-gtk >/dev/null || /usr/libexec/xdg-desktop-portal-gtk &\
+    pgrep -x xdg-desktop-portal >/dev/null || /usr/libexec/xdg-desktop-portal &\
+'
 
 include variables
 include outputs
@@ -320,29 +328,4 @@ for_window [class="obsidian"] move scratchpad
 
 popup_during_fullscreen smart
 
-### INCLUDE EXTRA ###
-# Doesnt work. todo
-# default fedora includes
-# Include configs from 3 locations:
-#  - $DATADIR/sway/config.d
-#  - $SYSCONFDIR/sway/config.d
-#  - $XDG_CONFIG_HOME/sway/config.d ($HOME/.config/sway/config.d)
-#
-# If multiple directories contain the files with the same name, the later
-# directory takes precedence; `$XDG_CONFIG_HOME/sway/config.d/20-swayidle.conf`
-# will always be loaded instead of `$DATADIR/sway/config.d/20-swayidle.conf`
-# or `$SYSCONFDIR/sway/config.d/20-swayidle.conf`
-#
-# This mechanism permits overriding our default configuration per-system
-# ($SYSCONFDIR) or per-user ($XDG_CONFIG_HOME) basis. Just create the file you
-# want to modify/override in the higher-level directory.
-#
-# For example, to disable the default bar from Fedora configs, you'll need to
-#     $ echo -n > "$HOME/.config/sway/config.d/90-bar.conf"
-#
-# Note the quoting, the $() and the arguments quoting. All the parts are equally
-# important to make the magic work. And if you want to learn the secret behind
-# the trick, it's all in the `wordexp(3)`.
-#
-#include '$($LIBEXECDIR/sway/layered-include "$DATADIR/sway/config.d/*.conf" "$SYSCONFDIR/sway/config.d/*.conf" "${XDG_CONFIG_HOME:-$HOME/.config}/sway/config.d/*.conf")'
 
