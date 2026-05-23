@@ -3,13 +3,16 @@
 
 # Screen sharing
 # I absolutly idk. It just stopped working under fedora 44 and i keep fixing this part
-exec sh -c ' \
-    systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP && \
-    hash dbus-update-activation-environment 2>/dev/null && \
-    dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP && \
-    systemctl --user start graphical-session.target \
-'
+#exec sh -c ' \
+#    systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP && \
+#    hash dbus-update-activation-environment 2>/dev/null && \
+#    dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP && \
+#    systemctl --user start graphical-session.target \
+#'
 
+exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP
+exec hash dbus-update-activation-environment 2>/dev/null && dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP
+exec systemctl --user start graphical-session.target
 exec sh -c '\
     pgrep -x xdg-desktop-portal-wlr >/dev/null || /usr/libexec/xdg-desktop-portal-wlr &\
     pgrep -x xdg-desktop-portal-gtk >/dev/null || /usr/libexec/xdg-desktop-portal-gtk &\
@@ -327,5 +330,4 @@ for_window [title="(?i)(?:copying|deleting|moving)"] floating enable
 for_window [class="obsidian"] move scratchpad
 
 popup_during_fullscreen smart
-
 
