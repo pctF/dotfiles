@@ -2,14 +2,6 @@
 #
 
 # Screen sharing
-# I absolutly idk. It just stopped working under fedora 44 and i keep fixing this part
-#exec sh -c ' \
-#    systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP && \
-#    hash dbus-update-activation-environment 2>/dev/null && \
-#    dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP && \
-#    systemctl --user start graphical-session.target \
-#'
-
 exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP
 exec hash dbus-update-activation-environment 2>/dev/null && dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP
 exec systemctl --user start graphical-session.target
@@ -28,11 +20,13 @@ include pointer
 include touchpad
 
 # nwg-shell sway config
-# Read `man 5 sway` for reference.
+		# Read `man 5 sway` for reference.
 
 # border & title
-for_window [title="^.*"] border pixel 2, title_format "%class >> %title"
+for_window [title="^.*"] border pixel 2, title_format "%title"
+
 default_border pixel 2
+titlebar_padding 1 1
 
 # gaps
 gaps inner 4
@@ -40,7 +34,7 @@ gaps outer 0
 smart_gaps on
 
 # font
-font Jetbrains Mono: 16
+font Jetbrains Mono: 15
 
 # mod key used for most binds
 # Mod1 = Alt
@@ -328,6 +322,8 @@ for_window [app_id="(?i)(?:pavucontrol|nm-connection-editor|gsimplecal|galculato
 #for_window [app_id="(?i)(?:firefox|chromium)"] border none
 for_window [title="(?i)(?:copying|deleting|moving)"] floating enable
 for_window [class="obsidian"] move scratchpad
+
+floating_minimum_size 1280 x 1024
 
 popup_during_fullscreen smart
 
