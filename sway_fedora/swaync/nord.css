@@ -1,0 +1,173 @@
+/*
+ * swaync — Nord theme, matched to waybar + rofi.
+ * Kept separate from preset-*.css so nwg-shell-config never overwrites it.
+ */
+
+@define-color nord0  #2e3440;
+@define-color nord1  #3b4252;
+@define-color nord2  #434c5e;
+@define-color nord3  #4c566a;
+@define-color nord4  #d8dee9;
+@define-color nord6  #eceff4;
+@define-color frost  #88c0d0;
+@define-color teal   #8fbcbb;
+@define-color red    #bf616a;
+
+* {
+  font-family: "DejaVu Sans", "Symbols Nerd Font", sans-serif;
+  font-size: 13px;
+}
+
+/* ---- popup toasts ---- */
+.floating-notifications {
+  background: transparent;
+}
+
+.notification-row {
+  outline: none;
+}
+
+.notification-row:hover {
+  background: transparent;
+}
+
+.notification {
+  border-radius: 10px;
+  margin: 6px 10px;
+  padding: 0;
+  background: @nord1;
+  border: 1px solid @nord3;
+  box-shadow: 0 3px 8px 1px rgba(0, 0, 0, 0.4);
+}
+
+.notification-content {
+  background: transparent;
+  border-radius: 10px;
+  padding: 10px 12px;
+  color: @nord4;
+}
+
+.summary {
+  font-size: 13px;
+  font-weight: bold;
+  color: @nord6;
+}
+
+.time {
+  font-size: 11px;
+  color: alpha(@nord4, 0.6);
+}
+
+.body {
+  font-size: 12px;
+  color: @nord4;
+}
+
+.body-image {
+  margin-top: 6px;
+  border-radius: 8px;
+}
+
+.image {
+  margin-right: 10px;
+  border-radius: 6px;
+}
+
+/* ---- close (x) button ---- */
+.close-button {
+  background: @nord3;
+  color: @nord6;
+  text-shadow: none;
+  padding: 0;
+  margin: 6px;
+  border-radius: 100%;
+  box-shadow: none;
+}
+
+.close-button:hover {
+  background: @red;
+  color: @nord6;
+}
+
+/* ---- clickable notification body ---- */
+.notification-default-action {
+  border-radius: 10px;
+  background: transparent;
+}
+
+.notification-default-action:hover {
+  background: @nord2;
+}
+
+/* ---- action buttons under a notification ---- */
+.notification-action {
+  background: @nord2;
+  color: @nord4;
+  border: none;
+  border-radius: 8px;
+  margin: 6px 4px 8px 4px;
+  padding: 5px 10px;
+}
+
+.notification-action:hover {
+  background: @frost;
+  color: @nord0;
+}
+
+/* ---- control center panel ---- */
+.control-center {
+  background: @nord0;
+  border: 1px solid @nord3;
+  border-radius: 12px;
+  padding: 10px;
+  margin: 0;
+  box-shadow: 0 4px 12px 2px rgba(0, 0, 0, 0.45);
+}
+
+.control-center-list {
+  background: transparent;
+}
+
+.control-center .notification {
+  background: @nord1;
+  margin: 5px 0;
+}
+
+/* ---- header row: title, Clear All, Do Not Disturb ---- */
+.top-action-title {
+  color: @nord6;
+  font-size: 15px;
+  font-weight: bold;
+  margin: 2px 4px 8px 4px;
+}
+
+.control-center-clear-all {
+  background: @nord2;
+  color: @nord4;
+  border: none;
+  border-radius: 8px;
+  padding: 6px 14px;
+  margin: 2px 4px 8px 4px;
+}
+
+.control-center-clear-all:hover {
+  background: @frost;
+  color: @nord0;
+}
+
+.control-center-dnd {
+  background: @nord2;
+  border: none;
+  border-radius: 12px;
+  padding: 2px;
+  margin: 2px 4px;
+}
+
+.control-center-dnd:checked {
+  background: @teal;
+}
+
+.control-center-dnd slider {
+  background: @nord6;
+  border-radius: 100%;
+}
