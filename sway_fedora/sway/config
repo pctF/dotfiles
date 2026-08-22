@@ -26,7 +26,7 @@ include touchpad
 for_window [title="^.*"] border pixel 2, title_format "%title"
 
 default_border pixel 2
-titlebar_padding 1 1
+titlebar_padding 10 1
 
 # gaps
 gaps inner 4
@@ -125,8 +125,13 @@ bindsym $Mod+Shift+c reload
 # Control+Alt+Right: Switch to Next Numbered Workspace
 bindsym Ctrl+Alt+Right exec swaymsg workspace number $(($(swaymsg -t get_workspaces | jq '.[] | select(.focused).num') + 1))
 
+bindgesture swipe:3:right exec swaymsg workspace number $(($(swaymsg -t get_workspaces | jq '.[] | select(.focused).num') - 1))
+
+
 # Control+Alt+Left: Switch to Previous Numbered Workspace
 bindsym Ctrl+Alt+Left exec swaymsg workspace number $(($(swaymsg -t get_workspaces | jq '.[] | select(.focused).num') - 1))
+
+bindgesture swipe:3:left exec swaymsg workspace number $(($(swaymsg -t get_workspaces | jq '.[] | select(.focused).num') + 1))
 
 # $Mod+Alt+PageUp: Move Window Right and Switch
 bindsym $Mod+Alt+Prior exec "NEW_WS=$(($(swaymsg -t get_workspaces | jq '.[] | select(.focused).num') + 1)); swaymsg move container to workspace number $NEW_WS, workspace number $NEW_WS"
