@@ -1,5 +1,7 @@
 * {
-    font-family: "Font Awesome 6 Free", "Symbols Nerd Font", sans-serif;
+    /* real text font FIRST: Font Awesome maps a-z to uppercase glyph shapes,
+       so leading with it renders every label in caps. Icon fonts are fallbacks. */
+    font-family: "DejaVu Sans", "Symbols Nerd Font", "Font Awesome 6 Free", sans-serif;
     font-size: 12px;
     min-height: 0;
     border: none;
@@ -30,7 +32,7 @@ window#waybar {
 #backlight,
 #tray,
 #custom-clipman,
-#taskbar,
+#custom-taskbar,
 #custom-scratchpad-indicator,
 #language,
 #cpu,
@@ -48,6 +50,10 @@ window#waybar {
 #custom-clipman,
 #custom-notification {
     font-size: 14px;
+}
+
+#custom-taskbar {
+    font-size: 11px;
 }
 
 #clock {
@@ -71,17 +77,6 @@ window#waybar {
     color: #2e3440;
 }
 
-#taskbar button {
-    padding: 0 4px;
-    margin: 1px;
-    border-radius: 3px;
-}
-
-#taskbar button.active,
-#taskbar button:hover {
-    background-color: #8fbcbb;
-    color: #2e3440;
-}
 
 #battery.warning {
     color: #ebcb8b;

@@ -13,7 +13,7 @@
     "height": 36,
     "spacing": 0,
 
-    "modules-left": [ "clock", "custom/scratchpad-indicator", "wlr/taskbar" ],
+    "modules-left": [ "clock", "custom/scratchpad-indicator", "custom/taskbar" ],
     "modules-right": [ "tray", "custom/notification", "custom/clipman", "sway/language", "cpu", "memory", "temperature", "pulseaudio", "pulseaudio#microphone", "backlight", "battery" ],
 
     "clock": {
@@ -31,13 +31,12 @@
         "on-click-right": "exec swaymsg 'move scratchpad'"
     },
 
-    "wlr/taskbar": {
-        "format": "{icon} {name}",
-        "icon-size": 15,
-        "tooltip-format": "{title}",
-        "on-click": "activate",
-        "on-click-middle": "close",
-        "ignore-list": []
+    "custom/taskbar": {
+        "return-type": "json",
+        "exec": "/home/ivan/projects/personal/dotfiles/sway_fedora/waybar/scripts/sway-taskbar.py",
+        "escape": false,
+        "on-scroll-up": "swaymsg workspace next",
+        "on-scroll-down": "swaymsg workspace prev"
     },
 
     "tray": {
