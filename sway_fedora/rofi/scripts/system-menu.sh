@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 # rofi script-mode: replaces the nwg-controls drawer. Utilities + power actions.
 
+# Fully detach a GUI app so rofi can exit and release its keyboard grab.
+launch() {
+    setsid -f "$@" >/dev/null 2>&1 </dev/null
+}
+
 if [ -z "$ROFI_RETV" ] || [ "$ROFI_RETV" = "0" ]; then
     printf '\x00urgent\x1f7,8\n'
     printf 'Processes\x00icon\x1futilities-system-monitor\n'
@@ -16,13 +21,13 @@ if [ -z "$ROFI_RETV" ] || [ "$ROFI_RETV" = "0" ]; then
 fi
 
 case "$1" in
-    Processes)      nwg-processes & disown ;;
-    Wallpapers)      azote & disown ;;
-    "GTK Settings")  nwg-look & disown ;;
-    Displays)        nwg-displays & disown ;;
-    "Shell Settings") nwg-shell-config & disown ;;
-    Lock)            swaylock -f -c 000000 & disown ;;
-    Logout)          swaymsg exit ;;
-    Reboot)          systemctl reboot ;;
-    Shutdown)        systemctl -i poweroff ;;
+    Processes)        launch nwg-processes ;;
+    Wallpapers)       launch azote ;;
+    "GTK Settings")   launch nwg-look ;;
+    Displays)         launch nwg-displays ;;
+    "Shell Settings") launch nwg-shell-config ;;
+    Lock)             launch nwg-lock ;;
+    Logout)           swaymsg exit ;;
+    Reboot)           systemctl reboot ;;
+    Shutdown)         systemctl -i poweroff ;;
 esac

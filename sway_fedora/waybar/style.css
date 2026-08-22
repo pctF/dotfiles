@@ -1,6 +1,6 @@
 * {
     font-family: "Font Awesome 6 Free", "Symbols Nerd Font", sans-serif;
-    font-size: 14px;
+    font-size: 12px;
     min-height: 0;
     border: none;
     border-radius: 0;
@@ -12,10 +12,10 @@ window#waybar {
 }
 
 /* icon-bearing modules: Font Awesome Solid glyphs need weight 900 or they render blank */
-#mpris,
 #pulseaudio,
 #backlight,
 #custom-clipman,
+#custom-notification,
 #cpu,
 #temperature,
 #memory,
@@ -25,8 +25,6 @@ window#waybar {
     font-weight: 900;
 }
 
-#mpris,
-#mode,
 #clock,
 #pulseaudio,
 #backlight,
@@ -41,16 +39,24 @@ window#waybar {
 #battery,
 #microphone,
 #custom-notification {
-    padding: 0 10px;
+    padding: 0 9px;
     color: #d8dee9;
+}
+
+/* icon-only buttons — no percentage text alongside, so bump to match visual weight */
+#tray,
+#custom-clipman,
+#custom-notification {
+    font-size: 14px;
 }
 
 #clock {
     font-family: "DejaVu Sans Mono", monospace;
     font-weight: bold;
+    font-size: 12px;
+    padding: 0 10px 0 7px;
 }
 
-#mpris:hover,
 #pulseaudio:hover,
 #backlight:hover,
 #custom-clipman:hover,
@@ -61,18 +67,18 @@ window#waybar {
 #microphone:hover,
 #custom-notification:hover,
 #custom-scratchpad-indicator:hover {
-    background-color: #cd7ebf;
-    color: #fff;
+    background-color: #88c0d0;
+    color: #2e3440;
 }
 
-#taskbar item {
-    padding: 0 6px;
-    margin: 2px;
+#taskbar button {
+    padding: 0 4px;
+    margin: 1px;
     border-radius: 3px;
 }
 
-#taskbar item.focused,
-#taskbar item:hover {
+#taskbar button.active,
+#taskbar button:hover {
     background-color: #8fbcbb;
     color: #2e3440;
 }
@@ -96,4 +102,37 @@ window#waybar {
 #tray > .needs-attention {
     -gtk-icon-effect: highlight;
     background-color: #bf616a;
+}
+
+/* right-click menus on tray icons (telegram, network, ...) */
+menu,
+#tray menu {
+    background-color: #3b4252;
+    color: #d8dee9;
+    border: 1px solid #4c566a;
+    border-radius: 8px;
+    padding: 6px;
+}
+
+menu menuitem,
+#tray menu menuitem {
+    padding: 6px 14px;
+    min-height: 22px;
+    border-radius: 5px;
+    color: #d8dee9;
+}
+
+menu menuitem:hover,
+#tray menu menuitem:hover {
+    background-color: #88c0d0;
+    color: #2e3440;
+}
+
+menu menuitem:disabled {
+    color: #6c7a8c;
+}
+
+menu separator {
+    background-color: #4c566a;
+    margin: 4px 2px;
 }

@@ -3,13 +3,21 @@
 # Type an expression + Enter -> result shown & copied to clipboard.
 # Select the result again -> re-copy & exit.
 
+# rofi is launched from the compositor, which never sources SDKMAN's shell init,
+# so `groovy` is not on PATH here. Resolve it explicitly.
+GROOVY="$(command -v groovy 2>/dev/null)"
+if [ -z "$GROOVY" ]; then
+    GROOVY="$HOME/.sdkman/candidates/groovy/current/bin/groovy"
+fi
+export JAVA_HOME="${JAVA_HOME:-$HOME/.sdkman/candidates/java/current}"
+
 case "$ROFI_RETV" in
 0)
     printf '\x00message\x1fType a Groovy expression and press Enter\n'
     ;;
 2)
     expr="$1"
-    result="$(groovy -e "println(($expr))" 2>&1)"
+    result="$("$GROOVY" -e "println(($expr))" 2>&1)"
     status=$?
     if [ "$status" -ne 0 ]; then
         printf '\x00message\x1fError evaluating: %s\n' "$expr"
