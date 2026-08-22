@@ -2,7 +2,7 @@
     /* real text font FIRST: Font Awesome maps a-z to uppercase glyph shapes,
        so leading with it renders every label in caps. Icon fonts are fallbacks. */
     font-family: "DejaVu Sans", "Symbols Nerd Font", "Font Awesome 6 Free", sans-serif;
-    font-size: 12px;
+    font-size: 10px;
     min-height: 0;
     border: none;
     border-radius: 0;
@@ -41,7 +41,7 @@ window#waybar {
 #battery,
 #microphone,
 #custom-notification {
-    padding: 0 9px;
+    padding: 0 6px;
     color: #d8dee9;
 }
 
@@ -49,18 +49,18 @@ window#waybar {
 #tray,
 #custom-clipman,
 #custom-notification {
-    font-size: 14px;
+    font-size: 12px;
 }
 
 #custom-taskbar {
-    font-size: 11px;
+    font-size: 10px;
 }
 
 #clock {
     font-family: "DejaVu Sans Mono", monospace;
     font-weight: bold;
-    font-size: 12px;
-    padding: 0 10px 0 7px;
+    font-size: 11px;
+    padding: 0 8px 0 5px;
 }
 
 #pulseaudio:hover,
@@ -106,13 +106,13 @@ menu,
     color: #d8dee9;
     border: 1px solid #4c566a;
     border-radius: 8px;
-    padding: 6px;
+    padding: 4px;
 }
 
 menu menuitem,
 #tray menu menuitem {
-    padding: 6px 14px;
-    min-height: 22px;
+    padding: 4px 12px;
+    min-height: 18px;
     border-radius: 5px;
     color: #d8dee9;
 }
@@ -129,5 +129,5 @@ menu menuitem:disabled {
 
 menu separator {
     background-color: #4c566a;
-    margin: 4px 2px;
+    margin: 3px 2px;
 }

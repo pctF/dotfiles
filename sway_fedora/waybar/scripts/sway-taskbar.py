@@ -82,8 +82,8 @@ FOCUS_FG = "#2e3440"
 DIM = "#d8dee9"
 
 # title length by window count: full -> shortened -> icon-only
-FULL_UPTO = 8     # <= this many windows: full titles
-SHORT_UPTO = 14   # <= this many: shortened titles; more: icons only
+FULL_UPTO = 13    # <= this many windows: full titles
+SHORT_UPTO = 19   # <= this many: shortened titles; more: icons only
 TITLE_FULL = 22
 TITLE_SHORT = 12
 # hard width guard: long titles can overflow the bar well before the count
