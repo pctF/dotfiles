@@ -32,6 +32,9 @@ configuration {
     display-sysmenu:            "  System";
     drun-display-format:        "{name}";
     font:                       "DejaVu Sans Mono 12, Symbols Nerd Font 12";
+    /* single left click launches; default binds accept to double-click */
+    me-select-entry:            "";
+    me-accept-entry:            "MousePrimary";
 }
 
 /*****----- Main Window -----*****/

@@ -81,9 +81,14 @@ FOCUS_BG = "#8fbcbb"      # nord7, focused window pill
 FOCUS_FG = "#2e3440"
 DIM = "#d8dee9"
 
-# progressively shorter titles, then icon-only (0) when the bar gets crowded
-TIERS = (22, 12, 0)
-MAX_CHARS = 185   # rough width budget for the taskbar half of the bar
+# title length by window count: full -> shortened -> icon-only
+FULL_UPTO = 8     # <= this many windows: full titles
+SHORT_UPTO = 14   # <= this many: shortened titles; more: icons only
+TITLE_FULL = 22
+TITLE_SHORT = 12
+# hard width guard: long titles can overflow the bar well before the count
+# thresholds trigger, which squeezes the status modules off the right edge
+MAX_CHARS = 275
 DEBOUNCE = 0.05   # seconds to coalesce a burst of sway events
 
 
@@ -119,14 +124,20 @@ def shorten(text, limit):
     return text if len(text) <= limit else text[: limit - 1] + "…"
 
 
-def build(acc, title_limit):
-    """Render one layout tier. title_limit of 0 means icon-only.
+def visible_len(acc, title_limit):
+    """Length of what the user actually sees, ignoring markup."""
+    n = 0
+    for ws, wins in acc.items():
+        n += len(str(ws)) + 2
+        for w in wins:
+            icon = ICONS.get(w["app"], DEFAULT_ICON)
+            n += len(icon if title_limit == 0 else f"{icon} {shorten(w['title'], title_limit)}") + 2
+    return n
 
-    Returns (markup, visible_length). Length counts only what the user sees,
-    so it can be compared against the character budget.
-    """
+
+def build(acc, title_limit):
+    """Render the taskbar. title_limit of 0 means icon-only."""
     groups = []
-    length = 0
     for ws in sorted(acc, key=ws_sort_key):
         wins = acc[ws]
         if not wins:
@@ -135,16 +146,14 @@ def build(acc, title_limit):
         for w in wins:
             icon = ICONS.get(w["app"], DEFAULT_ICON)
             text = icon if title_limit == 0 else f"{icon} {shorten(w['title'], title_limit)}"
-            length += len(text) + 2          # + the padding spaces
             label = html.escape(text)
             if w["focused"]:
                 parts.append(f"<span background='{FOCUS_BG}' color='{FOCUS_FG}'> {label} </span>")
             else:
                 parts.append(f"<span color='{DIM}'> {label} </span>")
         num = html.escape(str(ws))
-        length += len(str(ws)) + 2
         groups.append(f"<span color='{WS_COLOR}'><b>{num}</b></span>{''.join(parts)}")
-    return "  ".join(groups), length
+    return "  ".join(groups)
 
 
 def render():
@@ -153,11 +162,22 @@ def render():
     # the scratchpad is not a real workspace
     acc.pop("__i3_scratch", None)
 
-    # richest tier that still fits the bar; last one (icon-only) always wins
-    for limit in TIERS:
-        markup, length = build(acc, limit)
-        if length <= MAX_CHARS or limit == TIERS[-1]:
+    total = sum(len(v) for v in acc.values())
+    if total <= FULL_UPTO:
+        limit = TITLE_FULL
+    elif total <= SHORT_UPTO:
+        limit = TITLE_SHORT
+    else:
+        limit = 0          # icon-only
+
+    # step down further if the chosen tier would still overflow the bar
+    for candidate in (limit, TITLE_SHORT, 0):
+        if candidate > limit:
+            continue
+        limit = candidate
+        if visible_len(acc, limit) <= MAX_CHARS or limit == 0:
             break
+    markup = build(acc, limit)
 
     plain = [
         f"{ws}: " + ", ".join(f"{w['app']} — {w['title']}" for w in acc[ws])
