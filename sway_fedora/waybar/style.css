@@ -117,6 +117,16 @@ menu menuitem,
     color: #d8dee9;
 }
 
+/* global "* { min-height: 0 }" reset above zeroes out check/radio
+   indicators too — restore their box so toggle state is visible */
+menu menuitem check,
+menu menuitem radio,
+#tray menu menuitem check,
+#tray menu menuitem radio {
+    min-width: 16px;
+    min-height: 16px;
+}
+
 menu menuitem:hover,
 #tray menu menuitem:hover {
     background-color: #88c0d0;
