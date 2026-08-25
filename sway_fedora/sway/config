@@ -26,7 +26,7 @@ include touchpad
 for_window [title="^.*"] border pixel 2, title_format "%title"
 
 default_border pixel 2
-titlebar_padding 10 1
+titlebar_padding 5 1
 
 # gaps
 gaps inner 4
@@ -34,7 +34,7 @@ gaps outer 0
 smart_gaps on
 
 # font
-font Jetbrains Mono: 15
+font Jetbrains Mono: 10
 
 # mod key used for most binds
 # Mod1 = Alt
