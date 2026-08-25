@@ -5,11 +5,11 @@
     font-size: 11px;
     min-height: 0;
     border: none;
-    border-radius: 0;
+    border-radius: 4px;
 }
 
 window#waybar {
-    background-color: #434c5e;
+    background-color: #2e3440;
     color: #d8dee9;
 }
 
@@ -27,8 +27,10 @@ window#waybar {
     font-weight: 900;
 }
 
+/* pill segments: each module gets its own Nord-accent chip, floating on the dark bar */
 #clock,
 #pulseaudio,
+#pulseaudio.microphone,
 #backlight,
 #tray,
 #custom-clipman,
@@ -39,10 +41,11 @@ window#waybar {
 #temperature,
 #memory,
 #battery,
-#microphone,
 #custom-notification {
-    padding: 0 6px;
+    padding: 0 8px;
+    margin: 3px 2px;
     color: #d8dee9;
+    background-color: #434c5e;
 }
 
 /* icon-only buttons — no percentage text alongside, so bump to match visual weight */
@@ -52,42 +55,95 @@ window#waybar {
     font-size: 13px;
 }
 
+/* window list: one neutral tray-like chip, individual workspace/window
+   colors come from the script's own pango spans, not this module's bg */
 #custom-taskbar {
     font-size: 11px;
+    background-color: #3b4252;
+    padding: 0 10px;
+    margin: 3px 4px 3px 6px;
 }
 
 #clock {
     font-family: "DejaVu Sans Mono", monospace;
     font-weight: bold;
     font-size: 12px;
-    padding: 0 8px 0 5px;
+    padding: 0 10px 0 8px;
+    background-color: #5e81ac;
+    color: #eceff4;
+    margin-left: 6px;
+}
+
+#custom-scratchpad-indicator {
+    background-color: #4c566a;
+}
+
+#language {
+    background-color: #5d7096;
+}
+
+#cpu {
+    background-color: #596a8d;
+}
+
+#memory {
+    background-color: #546484;
+}
+
+#temperature {
+    background-color: #4d5c78;
+}
+
+#pulseaudio {
+    background-color: #5d7096;
+}
+
+#pulseaudio.microphone {
+    background-color: #5d7096;
+}
+
+#backlight {
+    background-color: #434c5e;
+}
+
+#battery {
+    background-color: #434c5e;
+}
+
+#tray {
+    background-color: #434c5e;
+    margin-right: 6px;
 }
 
 #pulseaudio:hover,
+#pulseaudio.microphone:hover,
 #backlight:hover,
 #custom-clipman:hover,
 #cpu:hover,
 #temperature:hover,
 #memory:hover,
 #battery:hover,
-#microphone:hover,
 #custom-notification:hover,
-#custom-scratchpad-indicator:hover {
+#custom-scratchpad-indicator:hover,
+#language:hover {
     background-color: #88c0d0;
     color: #2e3440;
 }
 
 
 #battery.warning {
-    color: #ebcb8b;
+    background-color: #ebcb8b;
+    color: #2e3440;
 }
 
 #battery.critical {
-    color: #bf616a;
+    background-color: #bf616a;
+    color: #eceff4;
 }
 
 #temperature.critical {
-    color: #bf616a;
+    background-color: #bf616a;
+    color: #eceff4;
 }
 
 #tray > .passive {

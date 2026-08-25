@@ -76,10 +76,10 @@ ICONS = {
 }
 DEFAULT_ICON = ""
 
-WS_COLOR = "#88c0d0"      # nord8, workspace number
-FOCUS_BG = "#8fbcbb"      # nord7, focused window pill
-FOCUS_FG = "#2e3440"
-DIM = "#d8dee9"
+WS_COLOR = "#81a1c1"      # nord9, workspace number
+FOCUS_BG = "#5e81ac"      # matches the clock chip's color
+FOCUS_FG = "#eceff4"
+DIM = "#9aa5b1"           # muted, recedes against the now-colorful pill bar
 
 # title length by window count: full -> shortened -> icon-only
 FULL_UPTO = 13    # <= this many windows: full titles

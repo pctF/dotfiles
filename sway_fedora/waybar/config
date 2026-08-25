@@ -48,13 +48,13 @@
         "tooltip": false,
         "format": "{icon} {text}",
         "format-icons": {
-            "notification": "<span foreground='#bf616a'></span>",
+            "notification": "<span foreground='#81a1c1'></span>",
             "none": "",
-            "dnd-notification": "<span foreground='#bf616a'></span>",
+            "dnd-notification": "<span foreground='#81a1c1'></span>",
             "dnd-none": "",
-            "inhibited-notification": "<span foreground='#bf616a'></span>",
+            "inhibited-notification": "<span foreground='#81a1c1'></span>",
             "inhibited-none": "",
-            "dnd-inhibited-notification": "<span foreground='#bf616a'></span>",
+            "dnd-inhibited-notification": "<span foreground='#81a1c1'></span>",
             "dnd-inhibited-none": ""
         },
         "return-type": "json",
