@@ -15,66 +15,186 @@ import select
 import subprocess
 import sys
 
-# nerd font glyphs, keyed by app_id (wayland) / WM class (x11).
-# every codepoint below is verified present in Symbols Nerd Font.
+# Nerd Font glyphs, keyed by app_id (wayland) / WM class (x11), lowercased.
+#
+# Codepoints verified present in Symbols Nerd Font (Fedora nerd-fonts 3.5.0,
+# /usr/share/fonts/nerd-fonts/SymbolsNerdFont-Regular.ttf). Re-verify after an
+# edit by dumping these escapes against the font cmap with fontTools. Glyphs in
+# the U+F0000+ (nf-md-*) plane silently truncate when pasted as literal
+# characters, so write those as \U000fXXXX escapes only, never pasted glyphs.
+#
+# Names follow the nerdfonts.com/cheat-sheet convention: fa- (Font Awesome),
+# md- (Material Design), dev- (Devicons), cod- (Codicons), linux- (distro/app),
+# custom- (Nerd Fonts originals).
 ICONS = {
-    "AmneziaVPN": "\uf132",
-    "azote": "\uf302",
-    "blueman-adapters": "\uf293",
-    "blueman-manager": "\uf293",
-    "chromium": "\uf268",
-    "Chromium-browser": "\uf268",
-    "chromium-browser": "\uf268",
-    "code": "\uf1c9",
-    "dqf-license-creator": "\ueb11",
-    "firefox": "\uf269",
-    "foot": "\uf120",
-    "foot-server": "\uf120",
-    "footclient": "\uf120",
-    "it.mijorus.gearlever": "\uf0ad",
-    "jetbrains-idea": "\ue7b5",
-    "jetbrains-idea-ce": "\ue7b5",
-    "jetbrains-toolbox": "\ue808",
-    "kdenlive": "\uefab",
-    "kse": "\ueb11",
-    "Mattermost": "\uf27a",
-    "mpv": "\uf008",
-    "nwg-clipman": "\uf0ea",
-    "nwg-displays": "\uf108",
-    "nwg-look": "\uf1fc",
-    "nwg-panel-config": "\uf1de",
-    "nwg-shell-config": "\uf1de",
-    "obs": "\uf03d",
-    "obsidian": "\uf40e",
-    "ONLYOFFICE": "\uf376",
-    "org.freedesktop.GnomeAbrt": "\uf188",
-    "org.gnome.DiskUtility": "\uf0a0",
-    "org.gnome.Nautilus": "\uf07b",
-    "org.kde.discover": "\uf466",
-    "org.kde.kdeconnect.app": "\ued08",
-    "org.kde.kdeconnect.nonplasma": "\ued08",
-    "org.kde.kdeconnect.sms": "\uf27a",
-    "org.mozilla.firefox": "\uf269",
-    "org.pulseaudio.pavucontrol": "\uf028",
-    "org.telegram.desktop": "\uf2c6",
-    "panel-preferences": "\uf1de",
-    "pavucontrol": "\uf028",
-    "rofi": "\uf002",
-    "rofi-theme-selector": "\uf002",
-    "setroubleshoot": "\ued25",
-    "system-config-language": "\uf1ab",
-    "system-config-printer": "\uef70",
-    "TelegramDesktop": "\uf2c6",
-    "throne": "\uf132",
-    "thunar": "\uf07b",
-    "thunar-bulk-rename": "\uf07b",
-    "thunar-settings": "\uf07b",
-    "thunderbird": "\ueb1c",
-    "thunderbird-esr": "\ueb1c",
-    "vlc": "\uf008",
-    "xarchiver": "\uf1c6",
+    # terminals -----------------------------------------------------------
+    "foot": "",                    # fa-terminal
+    "foot-server": "",
+    "footclient": "",
+    "kitty": "",
+    "alacritty": "",
+    "org.wezfurlong.wezterm": "",
+    # browsers ----------------------------------------------------------
+    "firefox": "",                 # fa-firefox
+    "org.mozilla.firefox": "",
+    "librewolf": "",
+    "chromium": "",                # fa-chrome
+    "chromium-browser": "",
+    "chrome": "",
+    "google-chrome": "",
+    "brave-browser": "",
+    # editors / IDEs ------------------------------------------------
+    "code": "",                    # dev-vscode
+    "code-oss": "",
+    "codium": "",
+    "vscodium": "",
+    "jetbrains-idea": "",          # dev-intellij
+    "jetbrains-idea-ce": "",
+    "idea": "",
+    "jetbrains-toolbox": "",       # dev-jetbrains
+    "toolbox": "",
+    "nvim": "\ue6ae",                 # custom-neovim
+    "neovide": "\ue6ae",
+    # chat / social ----------------------------------------------
+    "org.telegram.desktop": "\ue217",    # fae-telegram
+    "telegramdesktop": "\ue217",
+    "telegram-desktop": "\ue217",
+    "com.mattermost.desktop": "\U000f018e",  # md-card-account-mail (no brand glyph)
+    "mattermost": "\U000f018e",
+    "slack": "",                   # fa-slack
+    "discord": "",                 # fa-discord
+    "webcord": "",
+    "signal": "",
+    # mail --------------------------------------------------------
+    "org.mozilla.thunderbird_esr": "󰻧",  # md-email_multiple
+    "thunderbird": "󰻧",
+    "thunderbird-esr": "󰻧",
+    "org.gnome.evolution": "\U000f01ee",       # md-email
+    # notes / office --------------------------------------------
+    "md.obsidian.obsidian": "\ue6bb",  # custom-obsidian
+    "obsidian": "\ue6bb",
+    "onlyoffice": "",              # linux-libreoffice
+    "onlyoffice-desktopeditors": "",
+    "libreoffice": "",
+    "libreoffice-writer": "",
+    "libreoffice-calc": "",
+    "libreoffice-impress": "",
+    # media ----------------------------------------------------
+    "mpv": "\U000f0381",                 # md-movie
+    "vlc": "\U000f057c",                 # md-vlc
+    "org.kde.kdenlive": "",        # linux-kdenlive
+    "kdenlive": "",
+    "obs": "\ueba7",                     # cod-record
+    "com.obsproject.studio": "\ueba7",
+    "spotify": "",                 # fa-spotify
+    # file managers / archives -----------------------------
+    "org.gnome.nautilus": "",     # fa-folder
+    "nautilus": "",
+    "thunar": "",
+    "thunar-settings": "",
+    "thunar-bulk-rename": "",
+    "nemo": "",
+    "org.kde.dolphin": "",
+    "pcmanfm": "",
+    "xarchiver": "\U000f05c4",           # md-zip-box
+    "file-roller": "\U000f05c4",
+    "org.gnome.fileroller": "\U000f05c4",
+    # audio / bluetooth -----------------------------------
+    "org.pulseaudio.pavucontrol": "",  # fa-volume-up
+    "pavucontrol": "",
+    "blueman-manager": "",        # fa-bluetooth
+    "blueman-adapters": "",
+    ".blueman-manager-wrapped": "",
+    # system / settings ----------------------------------
+    "nwg-displays": "",           # fa-desktop
+    "nwg-look": "\U000f03d8",           # md-palette
+    "nwg-clipman": "",            # fa-paste
+    "nwg-panel-config": "",       # fa-sliders
+    "nwg-shell-config": "",
+    "nwg-panel": "",
+    "panel-preferences": "",
+    "rofi": "",                   # fa-search
+    "rofi-theme-selector": "",
+    "it.mijorus.gearlever": "\U000f03d3",  # md-package
+    "gearlever": "\U000f03d3",
+    "org.kde.discover": "",       # fa-store
+    "discover": "",
+    "org.gnome.diskutility": "",  # fa-hdd-o
+    "gnome-disks": "",
+    "system-config-printer": "\U000f042a",  # md-printer
+    "system-config-language": "",     # fa-language
+    "org.freedesktop.gnomeabrt": "",  # fa-bug
+    "org.gnome.gnomeabrt": "",
+    "setroubleshoot": "",         # fa-shield-halved
+    # vpn / secrets ------------------------------------
+    "amneziavpn": "\U000f0582",         # md-vpn
+    "throne": "\U000f0582",
+    "nekoray": "\U000f0582",
+    "kse": "\U000f0124",                # md-certificate
+    "dqf-license-creator": "\U000f0124",
+    "org.keepassxc.keepassxc": "",  # fa-key
+    "keepassxc": "",
+    "bitwarden": "",
+    # kde connect -------------------------------------
+    "org.kde.kdeconnect.app": "\U000f0121",  # md-cellphone-link
+    "org.kde.kdeconnect.nonplasma": "\U000f0121",
+    "kdeconnect": "\U000f0121",
+    "org.kde.kdeconnect.sms": "",      # fa-message
+    # wallpaper / images -----------------------------
+    "azote": "\U000f02e9",              # md-image
+    "org.gnome.eog": "\U000f02e9",
+    "imv": "\U000f02e9",
+    "swappy": "\U000f02e9",
 }
-DEFAULT_ICON = ""
+DEFAULT_ICON = ""                 # fa-window-maximize
+
+
+# apps whose windows are always rendered icon-only (no title), regardless of
+# the count-based tier -- they're instantly recognisable by glyph. Keys match
+# the same way icon lookups do (see _cand_keys).
+ICON_ONLY = {
+    "org.mozilla.thunderbird_esr", "thunderbird", "thunderbird-esr",
+    "md.obsidian.obsidian", "obsidian",
+    "com.mattermost.desktop", "mattermost",
+    "org.telegram.desktop", "telegramdesktop", "telegram-desktop",
+    "com.obsproject.studio", "obs",
+}
+
+
+def _cand_keys(app):
+    """Lookup keys to try for an app_id / WM class, most specific first.
+
+    Wayland app_ids are usually reverse-DNS (org.mozilla.thunderbird_esr), so a
+    flat dict lookup misses. Yield: the whole id, its last and second-to-last
+    dotted segments, and the two joined, each also retried with a common
+    packaging suffix stripped. All lowercase.
+    """
+    a = app.lower()
+    cands = [a]
+    segs = a.split(".")
+    if len(segs) > 1:
+        cands += [segs[-1], segs[-2], "-".join(segs[-2:]), ".".join(segs[-2:])]
+    for base in list(cands):
+        for suf in ("-esr", "_esr", "-bin", "-stable", "-git", "-nightly", "-dev", "-gtk"):
+            if base.endswith(suf):
+                cands.append(base[: -len(suf)])
+    return cands
+
+
+def icon_for(app):
+    """Map an app_id / WM class to a glyph."""
+    if not app:
+        return DEFAULT_ICON
+    for c in _cand_keys(app):
+        if c in ICONS:
+            return ICONS[c]
+    return DEFAULT_ICON
+
+
+def is_icon_only(app):
+    """True if this app should render without a title."""
+    return bool(app) and any(c in ICON_ONLY for c in _cand_keys(app))
+
 
 WS_COLOR = "#81a1c1"      # nord9, workspace number
 FOCUS_BG = "#5e81ac"      # matches the clock chip's color
@@ -82,10 +202,10 @@ FOCUS_FG = "#eceff4"
 DIM = "#9aa5b1"           # muted, recedes against the now-colorful pill bar
 
 # title length by window count: full -> shortened -> icon-only
-FULL_UPTO = 13    # <= this many windows: full titles
-SHORT_UPTO = 19   # <= this many: shortened titles; more: icons only
+FULL_UPTO = 6     # <= this many windows: full titles
+SHORT_UPTO = 14   # <= this many: shortened titles; more: icons only
 TITLE_FULL = 22
-TITLE_SHORT = 12
+TITLE_SHORT = 10
 # hard width guard: long titles can overflow the bar well before the count
 # thresholds trigger, which squeezes the status modules off the right edge
 MAX_CHARS = 275
@@ -130,8 +250,9 @@ def visible_len(acc, title_limit):
     for ws, wins in acc.items():
         n += len(str(ws)) + 2
         for w in wins:
-            icon = ICONS.get(w["app"], DEFAULT_ICON)
-            n += len(icon if title_limit == 0 else f"{icon} {shorten(w['title'], title_limit)}") + 2
+            icon = icon_for(w["app"])
+            icon_only = title_limit == 0 or is_icon_only(w["app"])
+            n += len(icon if icon_only else f"{icon} {shorten(w['title'], title_limit)}") + 2
     return n
 
 
@@ -144,8 +265,9 @@ def build(acc, title_limit):
             continue
         parts = []
         for w in wins:
-            icon = ICONS.get(w["app"], DEFAULT_ICON)
-            text = icon if title_limit == 0 else f"{icon} {shorten(w['title'], title_limit)}"
+            icon = icon_for(w["app"])
+            icon_only = title_limit == 0 or is_icon_only(w["app"])
+            text = icon if icon_only else f"{icon} {shorten(w['title'], title_limit)}"
             label = html.escape(text)
             if w["focused"]:
                 parts.append(f"<span background='{FOCUS_BG}' color='{FOCUS_FG}'> {label} </span>")
@@ -162,7 +284,12 @@ def render():
     # the scratchpad is not a real workspace
     acc.pop("__i3_scratch", None)
 
-    total = sum(len(v) for v in acc.values())
+    # only windows that will actually carry a title drive the tier choice --
+    # icon-only apps take negligible width, so a wall of chat clients shouldn't
+    # collapse everyone else to glyphs
+    total = sum(
+        1 for wins in acc.values() for w in wins if not is_icon_only(w["app"])
+    )
     if total <= FULL_UPTO:
         limit = TITLE_FULL
     elif total <= SHORT_UPTO:

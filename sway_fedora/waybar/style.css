@@ -1,7 +1,8 @@
 * {
-    /* real text font FIRST: Font Awesome maps a-z to uppercase glyph shapes,
-       so leading with it renders every label in caps. Icon fonts are fallbacks. */
-    font-family: "DejaVu Sans", "Symbols Nerd Font", "Font Awesome 6 Free", sans-serif;
+    /* real text font FIRST, then Symbols Nerd Font purely as the icon-glyph
+       fallback. Symbols Nerd Font carries no Latin letters, so ordering it
+       after the text font is enough — no need for a separate Font Awesome. */
+    font-family: "DejaVu Sans", "Symbols Nerd Font", sans-serif;
     font-size: 11px;
     min-height: 0;
     border: none;
@@ -65,7 +66,8 @@ window#waybar {
 }
 
 #clock {
-    font-family: "DejaVu Sans Mono", monospace;
+    /* Symbols Nerd Font kept in the chain for the leading clock glyph */
+    font-family: "DejaVu Sans Mono", "Symbols Nerd Font", monospace;
     font-weight: bold;
     font-size: 12px;
     padding: 0 10px 0 8px;
