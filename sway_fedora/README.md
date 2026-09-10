@@ -36,9 +36,31 @@ dnf config-manager addrepo --from-repofile=https://download.opensuse.org/reposit
 dnf install zsh-autosuggestions
 ```
 
+### swaync (notifications)
+
+swaync is D-Bus activated (`/usr/share/dbus-1/services/org.erikreider.swaync.service`
+-> `SystemdService=swaync.service`), so systemd starts `/usr/bin/swaync` with no
+arguments and the `exec swaync -s .../nord.css` line in `sway/autostart` loses the
+race ("An instance of SwayNotificationCenter is already running!"). The daemon
+therefore always loads `~/.config/swaync/style.css`, which nwg-shell-config
+overwrites with its own preset whenever the settings GUI is opened.
+
+Link the theme in as `style.css` so every start path picks it up:
+
+```shell
+ln -sf ~/projects/personal/dotfiles/sway_fedora/swaync/config.json ~/.config/swaync/config.json
+ln -sf ~/projects/personal/dotfiles/sway_fedora/swaync/nord.css    ~/.config/swaync/nord.css
+ln -sf ~/projects/personal/dotfiles/sway_fedora/swaync/nord.css    ~/.config/swaync/style.css
+systemctl --user restart swaync.service
+```
+
+If nwg-shell-config rewrites `style.css` again it writes through the symlink into
+`swaync/nord.css`, so `git diff` shows it and `git checkout` restores the theme.
+
 ## Contents
 * [foot terminal configs](foot)
 * [rofi config](rofi) - I am not using it but some experimental things that was ok to work with
+* [swaync](swaync) - notification daemon config + Nord theme
 * [sway](sway) - sway keybindings. Main work done here for comfortable navigation
 * [waybar](waybar) - Not using. But there is barable waybar configs to start with if I will switch to it
 * [xfce4](xfce4) - helper to use foot as default terminal
