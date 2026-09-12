@@ -1,13 +1,13 @@
 exec /home/ivan/.local/share/app/throne/Throne -tray -minimized
 # voice and email
-workspace 1;layout splith;exec flatpak run --env=MOZ_ENABLE_WAYLAND=1 org.mozilla.thunderbird_esr
-workspace 1;exec firefox "https://app.pachca.com/" "music.yandex.ru"
+workspace 2;layout splith;exec flatpak run --env=MOZ_ENABLE_WAYLAND=1 org.mozilla.thunderbird_esr
+workspace 2;exec firefox "https://app.pachca.com/" "music.yandex.ru"
 
 exec sleep 1 swaymsg '[app_id="org.mozilla.Thunderbird"] focus' && swaymsg 'resize set height 60 ppt'
 
 # messages
-workspace 2;exec flatpak run org.telegram.desktop
-workspace 2;exec flatpak run com.mattermost.Desktop
+workspace 1;exec flatpak run org.telegram.desktop
+workspace 1;exec flatpak run com.mattermost.Desktop
 
 # obsidian always  in scratchpad
 exec flatpak run md.obsidian.Obsidian
