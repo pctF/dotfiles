@@ -203,9 +203,9 @@ DIM = "#9aa5b1"           # muted, recedes against the now-colorful pill bar
 
 # title length by window count: full -> shortened -> icon-only
 FULL_UPTO = 6     # <= this many windows: full titles
-SHORT_UPTO = 14   # <= this many: shortened titles; more: icons only
-TITLE_FULL = 22
-TITLE_SHORT = 10
+SHORT_UPTO = 10   # <= this many: shortened titles; more: icons only
+TITLE_FULL = 12
+TITLE_SHORT = 6
 # hard width guard: long titles can overflow the bar well before the count
 # thresholds trigger, which squeezes the status modules off the right edge
 MAX_CHARS = 275
