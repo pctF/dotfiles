@@ -22,13 +22,14 @@
 
 /*****----- Configuration -----*****/
 configuration {
-    modi:                       "combi,geval:/home/ivan/projects/personal/dotfiles/sway_fedora/rofi/scripts/groovy-eval.sh,sysmenu:/home/ivan/projects/personal/dotfiles/sway_fedora/rofi/scripts/system-menu.sh";
+    modi:                       "combi,geval:/home/ivan/projects/personal/dotfiles/sway_fedora/rofi/scripts/groovy-eval.sh,idea:/home/ivan/projects/personal/dotfiles/sway_fedora/rofi/scripts/idea-projects.sh,sysmenu:/home/ivan/projects/personal/dotfiles/sway_fedora/rofi/scripts/system-menu.sh";
     combi-modi:                 "drun";
     combi-display-format:       "{text}";
     show-icons:                 true;
     icon-theme:                  "Papirus-Dark";
     display-combi:              "  Apps";
     display-geval:              "  Groovy";
+    display-idea:               "  IDEA";
     display-sysmenu:            "  System";
     drun-display-format:        "{name}";
     font:                       "DejaVu Sans Mono 12, Symbols Nerd Font 12";
@@ -113,8 +114,8 @@ message {
 /*****----- Listview -----*****/
 listview {
     enabled:                     true;
-    columns:                     5;
-    lines:                       3;
+    columns:                     1;
+    lines:                       8;
     cycle:                       true;
     dynamic:                     true;
     scrollbar:                   false;
@@ -142,12 +143,12 @@ element {
     enabled:                     true;
     spacing:                     8px;
     margin:                      0px;
-    padding:                     16px 6px;
+    padding:                     8px 12px;
     border:                      0px solid;
     border-radius:               12px;
     background-color:            @bg2;
     text-color:                  @foreground;
-    orientation:                 vertical;
+    orientation:                 horizontal;
     cursor:                      pointer;
 }
 element normal.normal {
@@ -184,7 +185,7 @@ element-text {
     highlight:                   inherit;
     cursor:                      inherit;
     vertical-align:              0.5;
-    horizontal-align:            0.5;
+    horizontal-align:            0;
     font:                        "DejaVu Sans Mono 10";
 }
 
