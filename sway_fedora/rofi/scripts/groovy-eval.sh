@@ -28,21 +28,22 @@ evaluate() {
 
 # Everyday one-liners that are easy to forget; they also keep the list the
 # same height as the other tabs. Enter runs one, Ctrl+Space copies it into the input to edit.
+# Input goes last as a closure call, so after Ctrl+Space it sits next to the cursor.
 SNIPPETS=(
     'UUID.randomUUID()'
     'System.currentTimeMillis()'
-    '"text".bytes.encodeBase64()'
-    'new String("dGV4dA==".decodeBase64())'
-    'URLEncoder.encode("a b&c=d", "UTF-8")'
-    '"text".sha256()'
-    'java.time.Instant.ofEpochMilli(1700000000000)'
-    'java.time.LocalDate.now().plusDays(30)'
+    '{ it.bytes.encodeBase64() }("t")'
+    '{ new String(it.decodeBase64()) }("dA==")'
+    '{ URLEncoder.encode(it, "UTF-8") }("a b")'
+    '{ it.sha256() }("t")'
+    '{ java.time.Instant.ofEpochMilli(it) }(1700000000000)'
 )
 
 case "$ROFI_RETV" in
 0)
-    printf '\x00message\x1fType a Groovy expression, or Enter on a snippet (Ctrl+Space to edit it)\n'
     for s in "${SNIPPETS[@]}"; do printf '%s\x00info\x1fsnippet\n' "$s"; done
+    # hint as a row, not a message/prompt: those change tab height / tab button name
+    printf 'Ctrl+Space edits a snippet\x00nonselectable\x1ftrue\n'
     ;;
 2)
     evaluate "$1"
