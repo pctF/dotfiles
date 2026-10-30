@@ -145,6 +145,8 @@ ICONS = {
     "org.gnome.eog": "\U000f02e9",
     "imv": "\U000f02e9",
     "swappy": "\U000f02e9",
+    # steam
+    "steam": "",
 }
 DEFAULT_ICON = ""                 # fa-window-maximize
 
