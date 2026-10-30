@@ -164,6 +164,9 @@ bindsym $Mod+Mod2+KP_8 workspace number 8
 bindsym $Mod+Mod1+Left workspace prev
 bindsym $Mod+Mod1+Right workspace next
 
+# compact workspaces on focused output (close numbering gaps, keep windows/layout)
+bindsym $Mod+Control+c exec /home/ivan/projects/personal/dotfiles/sway_fedora/sway/scripts/compact-workspaces.sh
+
 # move focused container to workspace
 bindsym $Mod+Shift+1 move container to workspace number 1; workspace number 1
 bindsym $Mod+Shift+2 move container to workspace number 2; workspace number 2
