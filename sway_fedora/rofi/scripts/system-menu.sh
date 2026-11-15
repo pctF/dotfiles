@@ -20,7 +20,7 @@ if [ -z "$ROFI_RETV" ] || [ "$ROFI_RETV" = "0" ]; then
 fi
 
 case "$1" in
-    Processes)        launch nwg-processes ;;
+    Processes)        launch flatpak run io.missioncenter.MissionCenter ;;
     Wallpapers)       launch azote ;;
     "GTK Settings")   launch nwg-look ;;
     Displays)         launch nwg-displays ;;
